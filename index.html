@@ -357,39 +357,44 @@
 (function(){
 
     /* ── JSONBin config ── */
-    const BIN_ID    = "69d254ac36566621a87f2320";
+    const BIN_ID     = "69d254ac36566621a87f2320";
     const MASTER_KEY = "$2a$10$hTyweySj/TYBG4g6bi4mB.HCyu3n7OuRFuhEW0RH9I0tSrX34wNEe";
-    const BIN_URL   = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-    const HEADERS   = {
+    const BIN_URL    = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+    const HEADERS    = {
         "Content-Type": "application/json",
         "X-Master-Key": MASTER_KEY
     };
 
     /* ── JSONBin helpers ── */
-    async function fetchMessages() {
+    async function fetchData() {
         try {
             const res = await fetch(BIN_URL + "/latest", { headers: HEADERS });
-            if (!res.ok) return { messages: [], sha: null };
+            if (!res.ok) return { messages: [], openCount: 0 };
             const data = await res.json();
-            const records = data.record;
-            const messages = Array.isArray(records) ? records.filter(m => m.text) : [];
-            return { messages, sha: null };
+            const rec = data.record;
+            const messages = Array.isArray(rec.messages) ? rec.messages.filter(m => m.text) : [];
+            const openCount = rec.openCount || 0;
+            return { messages, openCount };
         } catch(e) {
-            return { messages: [], sha: null };
+            return { messages: [], openCount: 0 };
         }
     }
 
-    async function saveMessages(messages) {
+    async function saveData(messages, openCount) {
         const res = await fetch(BIN_URL, {
             method: "PUT",
             headers: HEADERS,
-            body: JSON.stringify(messages)
+            body: JSON.stringify({ messages, openCount })
         });
         return res.ok;
     }
 
-    /* ── Password ── */
-    const _h = "828ea3d8f880d690f6f7f5108c3cbbb42f4082a849071b06e1e36935ec4727ea";
+    /* ── Passwords ──
+       _h1 = *88534chuhiya23#  → her password, open count tracked
+       _h2 = *88534chuha#      → your password, not tracked
+    ── */
+    const _h1 = "260fc48cc62ef4b86d99fca9102716e3e8703e5681281e93c95d4c83abce424a";
+    const _h2 = "329cfdee0dc2a672cd2d0ad5a589e7c37663e370b23aacbb3c2c2df910bd8218";
     let _a = 0, _locked = false, _unlocked = false;
 
     async function _sha256(s) {
@@ -403,11 +408,20 @@
         const val = document.getElementById("pwInput").value;
         if (!val) { document.getElementById("errMsg").textContent = "Please enter the password."; return; }
         const digest = await _sha256(val);
-        if (digest === _h) {
+
+        if (digest === _h1 || digest === _h2) {
             _unlocked = true; _a = 0;
             sessionStorage.setItem("_lv","1");
             document.getElementById("lockScreen").style.display = "none";
             document.getElementById("letterScreen").style.display = "block";
+
+            /* her password → increment open count in JSONBin */
+            if (digest === _h1) {
+                fetchData().then(({ messages, openCount }) => {
+                    saveData(messages, openCount + 1);
+                });
+            }
+
             initLetter();
         } else {
             _a++;
@@ -486,7 +500,7 @@
     }
 
     async function loadAndShowMessages() {
-        const { messages } = await fetchMessages();
+        const { messages } = await fetchData();
         renderMessages(messages);
     }
 
@@ -500,18 +514,18 @@
         document.getElementById("sendBtn").disabled = true;
         status.textContent = "Sending 💌...";
 
-        const { messages, sha } = await fetchMessages();
+        const { messages, openCount } = await fetchData();
         const now = new Date().toLocaleString("en-IN", { dateStyle:"medium", timeStyle:"short" });
         messages.push({ text: msg, time: now });
 
-        const ok = await saveMessages(messages);
+        const ok = await saveData(messages, openCount);
         if (ok) {
             status.textContent = "Sent! 💕 They'll see it when they open the letter.";
             input.value = "";
             renderMessages(messages);
             document.getElementById("msgThread").lastChild?.scrollIntoView({ behavior:"smooth" });
         } else {
-            status.textContent = "❌ Failed to send. Check your GitHub settings.";
+            status.textContent = "❌ Failed to send. Check your settings.";
         }
         document.getElementById("sendBtn").disabled = false;
     };

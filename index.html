@@ -23,46 +23,46 @@
         #lockScreen {
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 50%, #1565c0 100%);
             display: flex; align-items: center; justify-content: center;
             z-index: 9999;
         }
         .lock-card {
-            background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.95);
             border-radius: 24px; padding: 48px 40px;
-            box-shadow: 0 20px 60px rgba(255,107,157,0.35);
+            box-shadow: 0 20px 60px rgba(13,71,161,0.4);
             text-align: center; max-width: 380px; width: 90%;
-            border: 2.5px solid #ff6b9d;
+            border: 2.5px solid #1a73e8;
         }
         .lock-icon { font-size: 52px; margin-bottom: 18px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
-        .lock-title { font-family: 'Lora', serif; font-size: 28px; font-weight: 600; color: #ff1744; margin-bottom: 6px; }
+        .lock-title { font-family: 'Lora', serif; font-size: 28px; font-weight: 600; color: #0d47a1; margin-bottom: 6px; }
         .lock-subtitle { font-size: 14px; color: #888; margin-bottom: 28px; font-family: 'Poppins', sans-serif; }
         .pw-wrapper { position: relative; margin-bottom: 18px; }
         #pwInput {
             width: 100%; padding: 13px 46px 13px 16px;
-            border: 2px solid #ff6b9d; border-radius: 12px;
+            border: 2px solid #1a73e8; border-radius: 12px;
             font-size: 15px; font-family: 'Poppins', sans-serif;
             outline: none; background: #fff; color: #333;
             letter-spacing: 2px; transition: border 0.2s;
         }
-        #pwInput:focus { border-color: #ff1744; box-shadow: 0 0 0 3px rgba(255,23,68,0.12); }
+        #pwInput:focus { border-color: #0d47a1; box-shadow: 0 0 0 3px rgba(26,115,232,0.15); }
         #togglePw {
             position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
             background: none; border: none; cursor: pointer;
-            font-size: 18px; color: #ff6b9d; padding: 0; line-height: 1;
+            font-size: 18px; color: #1a73e8; padding: 0; line-height: 1;
         }
         #openBtn {
             width: 100%; padding: 13px;
-            background: linear-gradient(135deg, #ff6b9d, #ff1744);
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
             color: white; border: none; border-radius: 12px;
             font-size: 17px; font-family: 'Poppins', sans-serif; font-weight: 500;
             cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-            box-shadow: 0 4px 18px rgba(255,23,68,0.3);
+            box-shadow: 0 4px 18px rgba(13,71,161,0.35);
         }
-        #openBtn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,23,68,0.4); }
+        #openBtn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,71,161,0.45); }
         #openBtn:active { transform: scale(0.97); }
-        #errMsg { color: #ff1744; font-size: 13px; margin-top: 10px; height: 18px; animation: shake 0.3s ease; }
+        #errMsg { color: #0d47a1; font-size: 13px; margin-top: 10px; height: 18px; animation: shake 0.3s ease; }
         @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
         .attempts-info { font-size: 11px; color: #bbb; margin-top: 14px; }
 
@@ -296,10 +296,7 @@
 
             <div class="letter-body">
                 <p class="greeting">My love,</p>
-                <p>Reading your letter made my heart skip a beat. Every single word touched the deepest part of my soul. You have no idea how much you mean to me too.</p>
-                <p>Being with you is the safest, happiest place I have ever known. You make even the ordinary days feel extraordinary. Your love is the most beautiful thing that has ever happened to me.</p>
-                <p>I think about you every morning when I wake up and every night before I sleep. You are my calm in every storm, my smile in every sadness.</p>
-                <p>I love you more than you will ever know, and I promise to love you every single day.</p>
+                <p>I....</p>
                 <div class="signature">
                     Yours completely,<br>
                     Anu
